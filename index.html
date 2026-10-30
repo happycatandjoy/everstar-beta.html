@@ -1,572 +1,371 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1">
-
-<title>Everstar Beta 2</title>
-
-<style>
-
-body{
-margin:0;
-overflow:hidden;
-font-family:Arial,sans-serif;
-background:#111;
-}
-
-canvas{
-display:block;
-}
-
-#creator{
-
-position:absolute;
-inset:0;
-
-display:flex;
-flex-direction:column;
-
-justify-content:center;
-align-items:center;
-
-gap:10px;
-
-background:#102040;
-
-color:white;
-
-overflow-y:auto;
-
-z-index:1000;
-
-padding:20px;
-
-}
-
-#creator input,
-#creator select{
-
-width:240px;
-padding:10px;
-
-}
-
-#creator button{
-
-padding:10px 20px;
-
-}
-
-#previewCanvas{
-
-background:#87ceeb;
-
-border:3px solid white;
-
-border-radius:10px;
-
-}
-
-#ui{
-
-position:absolute;
-
-top:10px;
-left:10px;
-
-background:rgba(0,0,0,.7);
-
-color:white;
-
-padding:10px;
-
-border-radius:10px;
-
-z-index:100;
-
-}
-
-#saveBtn{
-
-position:absolute;
-
-top:10px;
-right:10px;
-
-padding:10px;
-
-z-index:100;
-
-}
-
-#joystick{
-
-position:absolute;
-
-left:20px;
-bottom:20px;
-
-width:140px;
-height:140px;
-
-border-radius:50%;
-
-border:4px solid white;
-
-background:rgba(255,255,255,.15);
-
-touch-action:none;
-
-z-index:200;
-
-}
-
-#stick{
-
-position:absolute;
-
-left:45px;
-top:45px;
-
-width:50px;
-height:50px;
-
-border-radius:50%;
-
-background:white;
-
-}
-
-#actionBtn{
-
-position:absolute;
-
-right:20px;
-bottom:40px;
-
-width:90px;
-height:90px;
-
-border:none;
-
-border-radius:50%;
-
-font-size:32px;
-
-background:gold;
-
-z-index:200;
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="creator">
-
-<h1>🌟 EVERSTAR BETA 2 🌟</h1>
-
-<canvas
-id="previewCanvas"
-width="180"
-height="180">
-</canvas>
-
-<input
-id="playerName"
-placeholder="Your Name">
-
-<label>Gender</label>
-
-<select id="gender">
-<option value="male">
-Male
-</option>
-
-<option value="female">
-Female
-</option>
-</select>
-
-<label>Home Realm</label>
-
-<select id="homeRealm">
-
-<option value="earth">
-🌎 Earth
-</option>
-
-<option value="water">
-🌊 Water
-</option>
-
-<option value="fire">
-🔥 Fire
-</option>
-
-<option value="air">
-🌪️ Air
-</option>
-
-</select>
-
-<label>Hair Color</label>
-
-<select id="hairColor">
-
-<option value="#3b2414">
-Brown
-</option>
-
-<option value="#111111">
-Black
-</option>
-
-<option value="#f4d03f">
-Blonde
-</option>
-
-<option value="#b03a2e">
-Red
-</option>
-
-</select>
-
-<label>Skin Color</label>
-
-<select id="skinColor">
-
-<option value="#f5d7b2">
-Light
-</option>
-
-<option value="#d8a47f">
-Tan
-</option>
-
-<option value="#b97a56">
-Brown
-</option>
-
-<option value="#8d5524">
-Dark
-</option>
-
-</select>
-
-<label>Eye Color</label>
-
-<select id="eyeColor">
-
-<option value="blue">
-Blue
-</option>
-
-<option value="green">
-Green
-</option>
-
-<option value="brown">
-Brown
-</option>
-
-<option value="purple">
-Purple
-</option>
-
-</select>
-
-<button id="randomCharacter">
-🎲 Random Character
-</button>
-
-<button onclick="startGame()">
-Begin Adventure
-</button>
-
-</div>
-
-<div id="ui">
-
-<div id="areaName">
-⭐ Everstar Plaza
-</div>
-
-<div id="questText">
-Quest: Visit all 4 realms
-</div>
-
-</div>
-
-<button id="saveBtn">
-💾 Save
-</button>
-
-<div id="joystick">
-<div id="stick"></div>
-</div>
-
-<button id="actionBtn">
-⭐
-</button>
-
-<canvas id="game"></canvas>
-
-<script>
-
-const canvas =
-document.getElementById("game");
-
-const ctx =
-canvas.getContext("2d");
-
-function resize(){
-
-canvas.width =
-window.innerWidth;
-
-canvas.height =
-window.innerHeight;
-
-}
-
-resize();
-
-window.addEventListener(
-"resize",
-resize
-);
-
 // =====================
-// WORLD
+// EVERSTAR ACADEMY
 // =====================
 
-const world = {
+playerData.school =
+"Everstar Academy";
 
-width:3000,
-height:3000
+playerData.year =
+"First Year Student";
+
+playerData.dorm =
+"";
+
+playerData.dream =
+"";
+
+// =====================
+// REALM NAMES
+// =====================
+
+const earthNames = [
+
+"Rowan",
+"Briar",
+"Cedar",
+"Willow",
+"Flint",
+
+"Oak",
+"Moss",
+"Fern"
+
+];
+
+const waterNames = [
+
+"Marina",
+"Coral",
+"Cascade",
+"River",
+
+"Tide",
+"Brook",
+"Misty",
+"Nerina"
+
+];
+
+const fireNames = [
+
+"Ember",
+"Blaze",
+"Ash",
+"Flare",
+
+"Cinder",
+"Ignis",
+"Pyra",
+"Spark"
+
+];
+
+const airNames = [
+
+"Zephyr",
+"Gale",
+"Nimbus",
+"Skye",
+
+"Aero",
+"Breeze",
+"Cloud",
+"Tempest"
+
+];
+
+const surnames = [
+
+"Oakheart",
+"Tidewhisper",
+
+"Ashflare",
+"Cloudrunner",
+
+"Everstar",
+"Stormwind",
+
+"Moonlight",
+"Wildroot"
+
+];
+
+// =====================
+// DORMS
+// =====================
+
+const dorms = {
+
+earth:
+"Stoneleaf Dorm",
+
+water:
+"Riverstone Dorm",
+
+fire:
+"Emberforge Dorm",
+
+air:
+"Cloudspire Dorm"
 
 };
 
 // =====================
-// PLAYER
+// DREAMS
 // =====================
 
-let player = {
+const dreams = {
 
-x:1500,
-y:1500,
+earth:[
+"Protect the Crystal Cave",
+"Restore the Ancient Forest",
+"Meet the Earth Tortoise"
+],
 
-speed:6,
+water:[
+"Find the Hidden Lake",
+"Master Water Magic",
+"Explore the Great Falls"
+],
 
-radius:28
+fire:[
+"Complete Volcano Trials",
+"Study Ancient Flames",
+"Explore Doom Forest"
+],
+
+air:[
+"Reach Floating Isles",
+"Pass Air Trials",
+"Find the Sky Temple"
+]
+
+};
+// =====================
+// EVERSTAR ACADEMY
+// =====================
+
+playerData.school =
+"Everstar Academy";
+
+playerData.year =
+"First Year Student";
+
+playerData.dorm =
+"";
+
+playerData.dream =
+"";
+
+// =====================
+// REALM NAME LISTS
+// =====================
+
+const earthNames = [
+"Rowan",
+"Briar",
+"Cedar",
+"Willow",
+"Flint",
+"Oak",
+"Moss",
+"Fern"
+];
+
+const waterNames = [
+"Marina",
+"Coral",
+"Cascade",
+"River",
+"Tide",
+"Brook",
+"Misty",
+"Nerina"
+];
+
+const fireNames = [
+"Ember",
+"Blaze",
+"Ash",
+"Flare",
+"Cinder",
+"Ignis",
+"Pyra",
+"Spark"
+];
+
+const airNames = [
+"Zephyr",
+"Gale",
+"Nimbus",
+"Skye",
+"Aero",
+"Breeze",
+"Cloud",
+"Tempest"
+];
+
+const surnames = [
+"Oakheart",
+"Tidewhisper",
+"Ashflare",
+"Cloudrunner",
+"Everstar",
+"Stormwind",
+"Moonlight",
+"Wildroot"
+];
+
+// =====================
+// DORMS
+// =====================
+
+const dorms = {
+
+earth:
+"Stoneleaf Dorm",
+
+water:
+"Riverstone Dorm",
+
+fire:
+"Emberforge Dorm",
+
+air:
+"Cloudspire Dorm"
 
 };
 
 // =====================
-// CAMERA
+// DREAMS
 // =====================
 
-let camera = {
+const dreams = {
 
-x:0,
-y:0
+earth:[
+"Protect the Crystal Cave",
+"Restore the Ancient Forest",
+"Meet the Earth Tortoise"
+],
+
+water:[
+"Find the Hidden Lake",
+"Master Water Magic",
+"Explore the Great Falls"
+],
+
+fire:[
+"Complete Volcano Trials",
+"Study Ancient Flames",
+"Explore Doom Forest"
+],
+
+air:[
+"Reach Floating Isles",
+"Pass Air Trials",
+"Find the Sky Temple"
+]
 
 };
 
-let joyX = 0;
-let joyY = 0;
-
 // =====================
-// KEYBOARD
+// STUDENT CARD
 // =====================
 
-const keys = {};
-
-window.addEventListener(
-"keydown",
-e=>{
-
-keys[
-e.key.toLowerCase()
-] = true;
-
-}
+const studentCard =
+document.createElement(
+"div"
 );
 
-window.addEventListener(
-"keyup",
-e=>{
+studentCard.id =
+"studentCard";
 
-keys[
-e.key.toLowerCase()
-] = false;
+studentCard.style.marginTop =
+"10px";
 
-}
+studentCard.style.textAlign =
+"center";
+
+studentCard.style.maxWidth =
+"250px";
+
+document
+.getElementById(
+"creator"
+)
+.appendChild(
+studentCard
 );
 
-// =====================
-// PLAYER DATA
-// =====================
+function updateStudentCard(){
 
-let playerData = {
+const name =
 
-name:"Guardian",
+document
+.getElementById(
+"playerName"
+).value
 
-gender:"male",
-
-homeRealm:"earth",
-
-hair:"#3b2414",
-
-skin:"#f5d7b2",
-
-eyes:"blue"
-
-};
-
-let currentPortal = "";
-
-let gameState =
-"world";
-// =====================
-// CHARACTER PREVIEW
-// =====================
-
-function drawPreview(){
-
-const preview =
-document.getElementById(
-"previewCanvas"
-);
-
-if(!preview) return;
-
-const pctx =
-preview.getContext("2d");
-
-pctx.clearRect(
-0,
-0,
-preview.width,
-preview.height
-);
-
-// sky
-
-pctx.fillStyle =
-"#87ceeb";
-
-pctx.fillRect(
-0,
-0,
-preview.width,
-preview.height
-);
-
-// body
-
-pctx.fillStyle =
-"#ff4444";
-
-pctx.beginPath();
-
-pctx.arc(
-90,
-100,
-30,
-0,
-Math.PI*2
-);
-
-pctx.fill();
-
-// head
-
-pctx.fillStyle =
-document.getElementById(
-"skinColor"
-)?.value
-|| playerData.skin;
-
-pctx.beginPath();
-
-pctx.arc(
-90,
-55,
-25,
-0,
-Math.PI*2
-);
-
-pctx.fill();
-
-// hair
-
-pctx.fillStyle =
-document.getElementById(
-"hairColor"
-)?.value
-|| playerData.hair;
-
-pctx.beginPath();
-
-pctx.arc(
-90,
-48,
-25,
-Math.PI,
-0
-);
-
-pctx.fill();
-
-// eyes
-
-pctx.fillStyle =
-document.getElementById(
-"eyeColor"
-)?.value
-|| playerData.eyes;
-
-pctx.beginPath();
-pctx.arc(82,55,3,0,Math.PI*2);
-pctx.fill();
-
-pctx.beginPath();
-pctx.arc(98,55,3,0,Math.PI*2);
-pctx.fill();
-
-// realm badge
+|| "Guardian";
 
 const realm =
-document.getElementById(
+
+document
+.getElementById(
 "homeRealm"
 )?.value
+
 || "earth";
 
-pctx.fillStyle="white";
+const dorm =
+dorms[realm];
 
-pctx.font=
-"16px Arial";
+const dream =
 
-pctx.fillText(
-realm.toUpperCase(),
-55,
-155
-);
+playerData.dream ||
+
+dreams[realm][0];
+
+studentCard.innerHTML =
+
+"<b>" + name + "</b><br>" +
+
+"🌎🌊🔥🌪 " +
+
+realm.toUpperCase() +
+" Realm<br>" +
+
+"🏫 Everstar Academy<br>" +
+
+"📚 First Year Student<br>" +
+
+"🏠 " + dorm +
+
+"<br><br>" +
+
+"⭐ Dream:<br>" +
+
+dream;
 
 }
 
 // =====================
-// RANDOM CHARACTER
+// RANDOM STUDENT
 // =====================
 
 function randomCharacter(){
+
+const realms = [
+"earth",
+"water",
+"fire",
+"air"
+];
+
+const genders = [
+"male",
+"female"
+];
 
 const hairs = [
 "#3b2414",
@@ -589,173 +388,142 @@ const eyes = [
 "purple"
 ];
 
-const realms = [
-"earth",
-"water",
-"fire",
-"air"
+const realm =
+
+realms[
+Math.floor(
+Math.random() *
+realms.length
+)
 ];
 
-const genders = [
-"male",
-"female"
+const gender =
+
+genders[
+Math.floor(
+Math.random() *
+genders.length
+)
 ];
+
+// name list
+
+let firstNames = [];
+
+if(realm === "earth")
+firstNames = earthNames;
+
+if(realm === "water")
+firstNames = waterNames;
+
+if(realm === "fire")
+firstNames = fireNames;
+
+if(realm === "air")
+firstNames = airNames;
+
+// create name
+
+const firstName =
+
+firstNames[
+Math.floor(
+Math.random() *
+firstNames.length
+)
+];
+
+const surname =
+
+surnames[
+Math.floor(
+Math.random() *
+surnames.length
+)
+];
+
+const dream =
+
+dreams[realm][
+Math.floor(
+Math.random() *
+dreams[realm].length
+)
+];
+
+// fill creator
 
 document
-.getElementById("hairColor")
-.value =
+.getElementById(
+"playerName"
+).value =
+
+firstName +
+" " +
+surname;
+
+document
+.getElementById(
+"gender"
+).value =
+gender;
+
+document
+.getElementById(
+"homeRealm"
+).value =
+realm;
+
+document
+.getElementById(
+"hairColor"
+).value =
+
 hairs[
 Math.floor(
-Math.random()
-*
+Math.random() *
 hairs.length
 )
 ];
 
 document
-.getElementById("skinColor")
-.value =
+.getElementById(
+"skinColor"
+).value =
+
 skins[
 Math.floor(
-Math.random()
-*
+Math.random() *
 skins.length
 )
 ];
 
 document
-.getElementById("eyeColor")
-.value =
+.getElementById(
+"eyeColor"
+).value =
+
 eyes[
 Math.floor(
-Math.random()
-*
+Math.random() *
 eyes.length
 )
 ];
 
-document
-.getElementById("homeRealm")
-.value =
-realms[
-Math.floor(
-Math.random()
-*
-realms.length
-)
-];
+playerData.dorm =
+dorms[realm];
 
-document
-.getElementById("gender")
-.value =
-genders[
-Math.floor(
-Math.random()
-*
-genders.length
-)
-];
+playerData.dream =
+dream;
 
 drawPreview();
 
+updateStudentCard();
+
 }
 
 // =====================
-// START GAME
-// =====================
-
-function startGame(){
-
-playerData.name =
-document.getElementById(
-"playerName"
-).value
-|| "Guardian";
-
-playerData.gender =
-document.getElementById(
-"gender"
-).value;
-
-playerData.homeRealm =
-document.getElementById(
-"homeRealm"
-).value;
-
-playerData.hair =
-document.getElementById(
-"hairColor"
-).value;
-
-playerData.skin =
-document.getElementById(
-"skinColor"
-).value;
-
-playerData.eyes =
-document.getElementById(
-"eyeColor"
-).value;
-
-saveProgress();
-
-document
-.getElementById(
-"creator"
-).style.display =
-"none";
-
-}
-// =====================
-// SAVE / LOAD
-// =====================
-
-const saveData =
-localStorage.getItem(
-"everstarBeta2Save"
-);
-
-if(saveData){
-
-try{
-
-playerData =
-JSON.parse(saveData);
-
-}
-catch(err){
-
-console.log(err);
-
-}
-
-}
-
-function saveProgress(){
-
-localStorage.setItem(
-
-"everstarBeta2Save",
-
-JSON.stringify(
-playerData
-)
-
-);
-
-}
-
-document
-.getElementById(
-"saveBtn"
-)
-.addEventListener(
-"click",
-saveProgress
-);
-
-// =====================
-// CHARACTER CREATOR UI
+// PREVIEW EVENTS
 // =====================
 
 document.addEventListener(
@@ -764,391 +532,170 @@ document.addEventListener(
 
 drawPreview();
 
+updateStudentCard();
+
 [
+"playerName",
 "gender",
 "homeRealm",
 "hairColor",
 "skinColor",
 "eyeColor"
-]
-.forEach(id=>{
+].forEach(id=>{
 
-document
-.getElementById(id)
-.addEventListener(
+const element =
+document.getElementById(
+id
+);
+
+if(!element)
+return;
+
+element.addEventListener(
 "change",
-drawPreview
+()=>{
+
+drawPreview();
+updateStudentCard();
+
+}
 );
 
 });
 
-document
-.getElementById(
+const nameInput =
+document.getElementById(
+"playerName"
+);
+
+if(nameInput){
+
+nameInput.addEventListener(
+"input",
+updateStudentCard
+);
+
+}
+
+const randomBtn =
+document.getElementById(
 "randomCharacter"
-)
-.addEventListener(
+);
+
+if(randomBtn){
+
+randomBtn.addEventListener(
 "click",
 randomCharacter
 );
 
-});
-
-// =====================
-// MOBILE JOYSTICK
-// =====================
-
-const joystick =
-document.getElementById(
-"joystick"
-);
-
-const stick =
-document.getElementById(
-"stick"
-);
-
-function updateJoystick(
-clientX,
-clientY
-){
-
-const rect =
-joystick.getBoundingClientRect();
-
-let dx =
-clientX -
-rect.left -
-70;
-
-let dy =
-clientY -
-rect.top -
-70;
-
-const distance =
-Math.sqrt(
-dx*dx +
-dy*dy
-);
-
-const max = 45;
-
-if(distance > max){
-
-dx =
-(dx/distance)
-* max;
-
-dy =
-(dy/distance)
-* max;
-
 }
 
-joyX = dx/max;
-joyY = dy/max;
-
-stick.style.left =
-(45+dx)+"px";
-
-stick.style.top =
-(45+dy)+"px";
-
-}
-
-joystick.addEventListener(
-"touchstart",
-e=>{
-
-const touch =
-e.touches[0];
-
-updateJoystick(
-touch.clientX,
-touch.clientY
-);
-
-}
-);
-
-joystick.addEventListener(
-"touchmove",
-e=>{
-
-const touch =
-e.touches[0];
-
-updateJoystick(
-touch.clientX,
-touch.clientY
-);
-
-e.preventDefault();
-
-}
-);
-
-function resetJoystick(){
-
-joyX = 0;
-joyY = 0;
-
-stick.style.left =
-"45px";
-
-stick.style.top =
-"45px";
-
-}
-
-joystick.addEventListener(
-"touchend",
-resetJoystick
-);
-
-joystick.addEventListener(
-"touchcancel",
-resetJoystick
-);
-
-// =====================
-// ACTION BUTTON
+});// =====================
+// ACADEMY STARTING AREA
 // =====================
 
-document
-.getElementById(
-"actionBtn"
-)
-.addEventListener(
-"click",
-()=>{
+let academyIntroViewed =
+false;
 
-alert(
-"⭐ Action system coming in Beta 2!"
-);
+const academy = {
 
-}
-);
-
-// =====================
-// MOVEMENT
-// =====================
-
-function movePlayer(){
-
-// joystick
-
-player.x +=
-joyX * player.speed;
-
-player.y +=
-joyY * player.speed;
-
-// WASD
-
-if(keys["w"])
-player.y -=
-player.speed;
-
-if(keys["s"])
-player.y +=
-player.speed;
-
-if(keys["a"])
-player.x -=
-player.speed;
-
-if(keys["d"])
-player.x +=
-player.speed;
-
-// arrow keys
-
-if(keys["arrowup"])
-player.y -=
-player.speed;
-
-if(keys["arrowdown"])
-player.y +=
-player.speed;
-
-if(keys["arrowleft"])
-player.x -=
-player.speed;
-
-if(keys["arrowright"])
-player.x +=
-player.speed;
-
-// world bounds
-
-player.x = Math.max(
-0,
-Math.min(
-world.width,
-player.x
-)
-);
-
-player.y = Math.max(
-0,
-Math.min(
-world.height,
-player.y
-)
-);
-
-}
-// =====================
-// CAMERA FOLLOW
-// =====================
-
-function updateCamera(){
-
-camera.x =
-player.x -
-(canvas.width / 2);
-
-camera.y =
-player.y -
-(canvas.height / 2);
-
-// keep camera inside world
-
-camera.x = Math.max(
-0,
-Math.min(
-world.width - canvas.width,
-camera.x
-)
-);
-
-camera.y = Math.max(
-0,
-Math.min(
-world.height - canvas.height,
-camera.y
-)
-);
-
-}
-
-// =====================
-// WORLD DATA
-// =====================
-
-const trees = [];
-
-for(let i=0;i<150;i++){
-
-trees.push({
-
-x:
-Math.random() *
-world.width,
-
-y:
-Math.random() *
-world.height
-
-});
-
-}
-
-// star roads
-
-const roads = [
-
-{
-x1:1500,
-y1:700,
-x2:1500,
-y2:1500
+headmaster:{
+x:400,
+y:220
 },
 
-{
-x1:700,
-y1:1500,
-x2:1500,
-y2:1500
+earthDorm:{
+x:140,
+y:420
 },
 
-{
-x1:1500,
-y1:1500,
-x2:2300,
-y2:1500
+waterDorm:{
+x:340,
+y:420
 },
 
-{
-x1:1500,
-y1:1500,
-x2:1500,
-y2:2300
+fireDorm:{
+x:540,
+y:420
+},
+
+airDorm:{
+x:740,
+y:420
 }
-
-];
-
-// portals
-
-const realms = [
-
-{
-name:"Earth Realm",
-key:"earth",
-x:1500,
-y:700,
-color:"#2e8b57"
-},
-
-{
-name:"Water Realm",
-key:"water",
-x:700,
-y:1500,
-color:"#2196f3"
-},
-
-{
-name:"Fire Realm",
-key:"fire",
-x:2300,
-y:1500,
-color:"#ff5722"
-},
-
-{
-name:"Air Realm",
-key:"air",
-x:1500,
-y:2300,
-color:"#87ceeb"
-}
-
-];
-
-// guardian hall
-
-const guardianHall = {
-
-x:1380,
-y:1420,
-
-w:240,
-h:140
 
 };
 
 // =====================
-// DRAW MAIN WORLD
+// ORIENTATION QUEST
 // =====================
 
-function drawWorld(){
+const orientationQuest = {
 
-// grass
+meetHeadmaster:false,
+
+findDorm:false,
+
+visitHall:false,
+
+complete:false
+
+};
+
+function updateOrientationQuest(){
+
+let count = 0;
+
+if(
+orientationQuest.meetHeadmaster
+)
+count++;
+
+if(
+orientationQuest.findDorm
+)
+count++;
+
+if(
+orientationQuest.visitHall
+)
+count++;
+
+document
+.getElementById(
+"questText"
+).innerHTML =
+
+"Orientation Day<br>" +
+
+count +
+"/3 Complete";
+
+if(count >= 3){
+
+orientationQuest.complete =
+true;
+
+document
+.getElementById(
+"questText"
+).innerHTML =
+
+"✅ Orientation Complete";
+
+}
+
+}
+
+// =====================
+// ACADEMY MAP
+// =====================
+
+function drawAcademy(){
 
 ctx.fillStyle =
-"#5cae55";
+"#79c46a";
 
 ctx.fillRect(
 0,
@@ -1157,244 +704,151 @@ canvas.width,
 canvas.height
 );
 
-// roads
+document
+.getElementById(
+"areaName"
+).innerHTML =
+"🏫 Everstar Academy";
 
-ctx.strokeStyle =
-"#d4c289";
-
-ctx.lineWidth = 40;
-
-for(const road of roads){
-
-ctx.beginPath();
-
-ctx.moveTo(
-road.x1-camera.x,
-road.y1-camera.y
-);
-
-ctx.lineTo(
-road.x2-camera.x,
-road.y2-camera.y
-);
-
-ctx.stroke();
-
-}
-
-// plaza
+// academy building
 
 ctx.fillStyle =
-"gold";
-
-ctx.beginPath();
-
-ctx.arc(
-1500-camera.x,
-1500-camera.y,
-120,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-ctx.fillStyle =
-"black";
-
-ctx.font =
-"24px Arial";
-
-ctx.fillText(
-"EVERSTAR PLAZA",
-1380-camera.x,
-1500-camera.y
-);
-
-// guardian hall
-
-ctx.fillStyle =
-"#d1b15b";
+"#c8b27a";
 
 ctx.fillRect(
-guardianHall.x-camera.x,
-guardianHall.y-camera.y,
-guardianHall.w,
-guardianHall.h
+260,
+60,
+350,
+140
 );
 
 ctx.strokeStyle =
-"#444";
+"black";
 
 ctx.lineWidth = 4;
 
 ctx.strokeRect(
-guardianHall.x-camera.x,
-guardianHall.y-camera.y,
-guardianHall.w,
-guardianHall.h
+260,
+60,
+350,
+140
 );
 
 ctx.fillStyle =
 "black";
 
+ctx.font =
+"26px Arial";
+
 ctx.fillText(
-"GUARDIAN HALL",
-1410-camera.x,
-1500-camera.y
+"EVERSTAR ACADEMY",
+285,
+145
 );
 
-// door
-
-ctx.fillStyle =
-"#654321";
-
-ctx.fillRect(
-1485-camera.x,
-1540-camera.y,
-30,
-20
-);
-
-// trees
-
-for(const tree of trees){
-
-ctx.fillStyle =
-"#6d4c41";
-
-ctx.fillRect(
-tree.x-camera.x-4,
-tree.y-camera.y,
-8,
-18
-);
-
-ctx.fillStyle =
-"darkgreen";
-
-ctx.beginPath();
-
-ctx.arc(
-tree.x-camera.x,
-tree.y-camera.y,
-18,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-}
-
-// portals
-
-for(const realm of realms){
-
-ctx.fillStyle =
-realm.color;
-
-ctx.beginPath();
-
-ctx.arc(
-realm.x-camera.x,
-realm.y-camera.y,
-60,
-0,
-Math.PI*2
-);
-
-ctx.fill();
+// courtyard paths
 
 ctx.strokeStyle =
-"white";
+"#d4c289";
 
-ctx.lineWidth = 5;
+ctx.lineWidth = 30;
+
+ctx.beginPath();
+
+ctx.moveTo(
+435,
+200
+);
+
+ctx.lineTo(
+435,
+520
+);
 
 ctx.stroke();
 
+// headmaster
+
+ctx.fillStyle =
+"purple";
+
+ctx.beginPath();
+
+ctx.arc(
+academy.headmaster.x,
+academy.headmaster.y,
+25,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
 ctx.fillStyle =
 "white";
 
-ctx.font =
-"16px Arial";
-
 ctx.fillText(
-realm.name,
-realm.x-camera.x-45,
-realm.y-camera.y+90
+"Headmaster Orion",
+academy.headmaster.x-65,
+academy.headmaster.y-40
+);
+
+// dorms
+
+drawDorm(
+academy.earthDorm.x,
+academy.earthDorm.y,
+"#2e8b57",
+"🌎 Stoneleaf"
+);
+
+drawDorm(
+academy.waterDorm.x,
+academy.waterDorm.y,
+"#2196f3",
+"🌊 Riverstone"
+);
+
+drawDorm(
+academy.fireDorm.x,
+academy.fireDorm.y,
+"#ff5722",
+"🔥 Emberforge"
+);
+
+drawDorm(
+academy.airDorm.x,
+academy.airDorm.y,
+"#87ceeb",
+"🌪 Cloudspire"
+);
+
+// player
+
+drawPlayer(
+player.x,
+player.y
 );
 
 }
 
-// area text
-
-document
-.getElementById(
-"areaName"
-).innerHTML =
-"⭐ Everstar Plaza";
-
-}
 // =====================
-// REALM STATES
+// DORMS
 // =====================
 
-let currentRealm =
-"world";
-
-function enterRealm(
-realmName
+function drawDorm(
+x,
+y,
+color,
+name
 ){
 
-currentRealm =
-realmName;
-
-player.x = 1500;
-player.y = 1500;
-
-}
-
-function leaveRealm(){
-
-currentRealm =
-"world";
-
-player.x = 1500;
-player.y = 1500;
-
-}
-
-// =====================
-// GUARDIAN HALL
-// =====================
-
-function drawGuardianHall(){
-
 ctx.fillStyle =
-"#c9b37e";
+color;
 
 ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-document
-.getElementById(
-"areaName"
-).innerHTML =
-"🏛 Guardian Hall";
-
-// quest board
-
-ctx.fillStyle =
-"#8b5a2b";
-
-ctx.fillRect(
-canvas.width/2-60,
-120,
+x,
+y,
 120,
 80
 );
@@ -1403,70 +857,250 @@ ctx.fillStyle =
 "white";
 
 ctx.font =
-"20px Arial";
+"16px Arial";
 
 ctx.fillText(
-"QUESTS",
-canvas.width/2-35,
-170
+name,
+x-5,
+y+105
 );
 
-// guardian desks
-
-const desks = [
-
-{
-label:"🌎 Earth",
-x:120,
-y:260,
-color:"#2e8b57"
-},
-
-{
-label:"🌊 Water",
-x:520,
-y:260,
-color:"#2196f3"
-},
-
-{
-label:"🔥 Fire",
-x:120,
-y:430,
-color:"#ff5722"
-},
-
-{
-label:"🌪 Air",
-x:520,
-y:430,
-color:"#87ceeb"
 }
 
+// =====================
+// NPC INTERACTION
+// =====================
+
+function academyAction(){
+
+const distance =
+Math.hypot(
+
+player.x -
+academy.headmaster.x,
+
+player.y -
+academy.headmaster.y
+
+);
+
+if(distance < 80){
+
+orientationQuest
+.meetHeadmaster = true;
+
+updateOrientationQuest();
+
+alert(
+
+"Headmaster Orion:\n\n" +
+
+"Welcome to Everstar Academy.\n" +
+
+"Today is Orientation Day.\n\n" +
+
+"Find your dorm,\n" +
+
+"then visit Guardian Hall."
+
+);
+
+return;
+
+}
+
+}
+
+// =====================
+// START GAME OVERRIDE
+// =====================
+
+const oldStartGame =
+startGame;
+
+startGame = function(){
+
+oldStartGame();
+
+currentRealm =
+"academy";
+
+player.x = 430;
+player.y = 320;
+
+playerData.dorm =
+
+dorms[
+playerData.homeRealm
 ];
 
-for(const desk of desks){
+updateStudentCard();
+
+updateOrientationQuest();
+
+};
+
+// =====================
+// ACTION OVERRIDE
+// =====================
+
+const oldUseAction =
+useAction;
+
+useAction = function(){
+
+if(
+currentRealm ===
+"academy"
+){
+
+academyAction();
+
+return;
+
+}
+
+oldUseAction();
+
+};// =====================
+// DORM SYSTEM
+// =====================
+
+let currentDorm =
+"";
+
+const dormInterior = {
+
+width:800,
+height:600
+
+};
+
+function enterDorm(){
+
+currentRealm =
+"dorm";
+
+currentDorm =
+playerData.homeRealm;
+
+player.x = 400;
+player.y = 450;
+
+orientationQuest.findDorm =
+true;
+
+updateOrientationQuest();
+
+}
+
+// =====================
+// DORM DRAWING
+// =====================
+
+function drawDormInterior(){
 
 ctx.fillStyle =
-desk.color;
+"#d7c4a8";
 
 ctx.fillRect(
-desk.x,
-desk.y,
-120,
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+document
+.getElementById(
+"areaName"
+).innerHTML =
+
+"🏠 " +
+playerData.dorm;
+
+// bed
+
+ctx.fillStyle =
+"#444";
+
+ctx.fillRect(
+80,
+140,
+160,
+90
+);
+
+// desk
+
+ctx.fillStyle =
+"#8b5a2b";
+
+ctx.fillRect(
+520,
+150,
+140,
 70
+);
+
+// student trunk
+
+ctx.fillStyle =
+"gold";
+
+ctx.fillRect(
+300,
+380,
+80,
+60
+);
+
+ctx.fillStyle =
+"black";
+
+ctx.font =
+"22px Arial";
+
+ctx.fillText(
+playerData.name,
+260,
+520
+);
+
+// realm banner
+
+let bannerColor =
+"white";
+
+if(currentDorm==="earth")
+bannerColor="#2e8b57";
+
+if(currentDorm==="water")
+bannerColor="#2196f3";
+
+if(currentDorm==="fire")
+bannerColor="#ff5722";
+
+if(currentDorm==="air")
+bannerColor="#87ceeb";
+
+ctx.fillStyle =
+bannerColor;
+
+ctx.fillRect(
+320,
+70,
+160,
+50
 );
 
 ctx.fillStyle =
 "white";
 
 ctx.fillText(
-desk.label,
-desk.x+10,
-desk.y+45
+playerData.homeRealm.toUpperCase(),
+340,
+103
 );
-
-}
 
 // exit portal
 
@@ -1494,326 +1128,189 @@ ctx.fillText(
 140
 );
 
-drawPlayer();
+drawPlayer(
+player.x,
+player.y
+);
 
 }
 
 // =====================
-// EARTH REALM
+// DORM INTERACTION
 // =====================
 
-function drawEarthRealm(){
+function checkDorms(){
 
-ctx.fillStyle =
-"#4b8f3c";
+if(
+currentRealm !==
+"academy"
+){
+return;
+}
 
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
+const realm =
+playerData.homeRealm;
 
-document
-.getElementById(
-"areaName"
-).innerHTML =
-"🌎 Earth Realm";
+// earth dorm
 
-// forest
+if(
+realm==="earth" &&
+player.x > 140 &&
+player.x < 260 &&
+player.y > 420 &&
+player.y < 500
+){
 
-for(let i=0;i<40;i++){
-
-ctx.fillStyle =
-"darkgreen";
-
-ctx.beginPath();
-
-ctx.arc(
-50+(i*30)%canvas.width,
-120+(i*40)%canvas.height,
-20,
-0,
-Math.PI*2
-);
-
-ctx.fill();
+enterDorm();
 
 }
 
-// crystal cave
+// water dorm
 
-ctx.fillStyle =
-"#777";
+if(
+realm==="water" &&
+player.x > 340 &&
+player.x < 460 &&
+player.y > 420 &&
+player.y < 500
+){
 
-ctx.beginPath();
-
-ctx.arc(
-canvas.width/2,
-120,
-60,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-ctx.fillStyle =
-"cyan";
-
-ctx.fillText(
-"Crystal Cave",
-canvas.width/2-40,
-220
-);
-
-drawPlayer();
+enterDorm();
 
 }
-// =====================
-// WATER REALM
-// =====================
 
-function drawWaterRealm(){
+// fire dorm
 
-ctx.fillStyle =
-"#1976d2";
+if(
+realm==="fire" &&
+player.x > 540 &&
+player.x < 660 &&
+player.y > 420 &&
+player.y < 500
+){
 
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
+enterDorm();
 
-document
-.getElementById(
-"areaName"
-).innerHTML =
-"🌊 Water Realm";
+}
 
-// giant lake
+// air dorm
 
-ctx.fillStyle =
-"#64b5f6";
+if(
+realm==="air" &&
+player.x > 740 &&
+player.x < 860 &&
+player.y > 420 &&
+player.y < 500
+){
 
-ctx.beginPath();
+enterDorm();
 
-ctx.arc(
-canvas.width/2,
-canvas.height/2,
-160,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-// waterfalls
-
-ctx.fillStyle =
-"#bbdefb";
-
-ctx.fillRect(
-100,
-0,
-60,
-250
-);
-
-ctx.fillRect(
-canvas.width-160,
-0,
-60,
-250
-);
-
-ctx.fillStyle =
-"white";
-
-ctx.font =
-"24px Arial";
-
-ctx.fillText(
-"🦄 Unicorn Meadow",
-canvas.width/2-90,
-110
-);
-
-// return portal
-
-drawReturnPortal();
-
-drawPlayer();
+}
 
 }
 
 // =====================
-// FIRE REALM
+// DORM EXIT
 // =====================
 
-function drawFireRealm(){
+function leaveDorm(){
 
-ctx.fillStyle =
-"#8b2a00";
+currentRealm =
+"academy";
 
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-document
-.getElementById(
-"areaName"
-).innerHTML =
-"🔥 Fire Realm";
-
-// volcano
-
-ctx.fillStyle =
-"#5d4037";
-
-ctx.beginPath();
-
-ctx.moveTo(
-canvas.width/2-140,
-canvas.height-120
-);
-
-ctx.lineTo(
-canvas.width/2,
-120
-);
-
-ctx.lineTo(
-canvas.width/2+140,
-canvas.height-120
-);
-
-ctx.fill();
-
-// lava
-
-ctx.fillStyle =
-"orange";
-
-ctx.fillRect(
-canvas.width/2-25,
-170,
-50,
-220
-);
-
-ctx.fillStyle =
-"white";
-
-ctx.font =
-"24px Arial";
-
-ctx.fillText(
-"🐺 Lava Wolf Den",
-canvas.width/2-80,
-100
-);
-
-// return portal
-
-drawReturnPortal();
-
-drawPlayer();
+player.x = 435;
+player.y = 350;
 
 }
 
 // =====================
-// AIR REALM
+// ACADEMY BADGE
 // =====================
 
-function drawAirRealm(){
+let academyBadge =
+false;
 
-ctx.fillStyle =
-"#87ceeb";
+function checkOrientationCompletion(){
 
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
+if(
+orientationQuest.meetHeadmaster &&
+orientationQuest.findDorm &&
+orientationQuest.visitHall
+){
+
+if(!academyBadge){
+
+academyBadge =
+true;
+
+alert(
+
+"🏫 Orientation Complete!\n\n" +
+
+"You earned the\n" +
+
+"Everstar Academy Badge!"
+
 );
 
-document
-.getElementById(
-"areaName"
-).innerHTML =
-"🌪 Air Realm";
+}
 
-// clouds
+}
 
-ctx.font =
-"70px Arial";
+}
+// =====================
+// GUARDIAN HALL TRIP
+// =====================
 
-ctx.fillText(
-"☁️",
-100,
-150
+const academyHallPortal = {
+
+x:435,
+y:560,
+
+radius:55
+
+};
+
+// =====================
+// ACADEMY BADGE
+// =====================
+
+playerData.badges =
+playerData.badges || [];
+
+function giveAcademyBadge(){
+
+if(
+playerData.badges.includes(
+"Academy Badge"
+)
+){
+return;
+}
+
+playerData.badges.push(
+"Academy Badge"
 );
 
-ctx.fillText(
-"☁️",
-350,
-250
+alert(
+
+"🏫 Academy Badge Earned!\n\n" +
+
+"You completed\n" +
+
+"Orientation Day."
+
 );
 
-ctx.fillText(
-"☁️",
-550,
-150
-);
-
-ctx.fillText(
-"☁️",
-250,
-420
-);
-
-// floating island
-
-ctx.fillStyle =
-"#7cb342";
-
-ctx.fillRect(
-canvas.width/2-90,
-canvas.height/2,
-180,
-70
-);
-
-ctx.fillStyle =
-"white";
-
-ctx.font =
-"24px Arial";
-
-ctx.fillText(
-"🪽 Pegasus Garden",
-canvas.width/2-95,
-120
-);
-
-// return portal
-
-drawReturnPortal();
-
-drawPlayer();
+saveProgress();
 
 }
 
 // =====================
-// RETURN PORTAL
+// DRAW HALL PORTAL
 // =====================
 
-function drawReturnPortal(){
+function drawAcademyHallPortal(){
 
 ctx.fillStyle =
 "gold";
@@ -1821,9 +1318,1052 @@ ctx.fillStyle =
 ctx.beginPath();
 
 ctx.arc(
-80,
-80,
-40,
+academyHallPortal.x,
+academyHallPortal.y,
+academyHallPortal.radius,
+0,
+Math.PI * 2
+);
+
+ctx.fill();
+
+ctx.strokeStyle =
+"white";
+
+ctx.lineWidth = 4;
+
+ctx.stroke();
+
+ctx.fillStyle =
+"white";
+
+ctx.font =
+"18px Arial";
+
+ctx.fillText(
+"Guardian Hall",
+academyHallPortal.x - 60,
+academyHallPortal.y + 85
+);
+
+}
+
+// =====================
+// UPDATE ACADEMY MAP
+// =====================
+
+// Add this line near the bottom
+// of drawAcademy()
+
+drawAcademyHallPortal();
+
+// =====================
+// HALL VISIT CHECK
+// =====================
+
+function checkAcademyHall(){
+
+if(
+currentRealm !==
+"academy"
+){
+return;
+}
+
+const distance =
+Math.hypot(
+
+player.x -
+academyHallPortal.x,
+
+player.y -
+academyHallPortal.y
+
+);
+
+if(distance < 70){
+
+orientationQuest
+.visitHall = true;
+
+updateOrientationQuest();
+
+currentRealm =
+"world";
+
+player.x = 1500;
+player.y = 1680;
+
+checkOrientationCompletion();
+
+}
+
+}
+
+// =====================
+// HEADMASTER FOLLOWUP
+// =====================
+
+function academyAction(){
+
+const distance =
+Math.hypot(
+
+player.x -
+academy.headmaster.x,
+
+player.y -
+academy.headmaster.y
+
+);
+
+if(distance < 80){
+
+orientationQuest
+.meetHeadmaster = true;
+
+updateOrientationQuest();
+
+if(
+orientationQuest.complete
+){
+
+alert(
+
+"Headmaster Orion:\n\n" +
+
+"Excellent work.\n" +
+
+"You are ready to begin\n" +
+
+"your studies in the realms."
+
+);
+
+}
+else{
+
+alert(
+
+"Headmaster Orion:\n\n" +
+
+"Welcome Student.\n\n" +
+
+"Find your dorm.\n" +
+
+"Then visit Guardian Hall."
+
+);
+
+}
+
+}
+
+}
+
+// =====================
+// QUEST COMPLETION
+// =====================
+
+function checkOrientationCompletion(){
+
+if(
+
+orientationQuest.meetHeadmaster &&
+
+orientationQuest.findDorm &&
+
+orientationQuest.visitHall
+
+){
+
+orientationQuest.complete =
+true;
+
+giveAcademyBadge();
+
+document
+.getElementById(
+"questText"
+).innerHTML =
+
+"✅ Orientation Complete";
+
+}
+
+}
+// =====================
+// FIRST CLASSES
+// =====================
+
+const academyClasses = {
+
+history:false,
+
+magic:false,
+
+realms:false
+
+};
+
+function updateAcademyProgress(){
+
+let completed = 0;
+
+if(academyClasses.history)
+completed++;
+
+if(academyClasses.magic)
+completed++;
+
+if(academyClasses.realms)
+completed++;
+
+document
+.getElementById(
+"questText"
+).innerHTML =
+
+"Academy Classes<br>" +
+
+completed +
+"/3 Complete";
+
+}
+
+// =====================
+// PROFESSOR NPCS
+// =====================
+
+const professors = {
+
+history:{
+x:220,
+y:250,
+name:"Professor Willow"
+},
+
+magic:{
+x:430,
+y:250,
+name:"Professor Ember"
+},
+
+realms:{
+x:640,
+y:250,
+name:"Professor Nimbus"
+}
+
+};
+
+// =====================
+// CLASSROOM MAP
+// =====================
+
+function drawClassroom(){
+
+ctx.fillStyle =
+"#d9d2c0";
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+document
+.getElementById(
+"areaName"
+).innerHTML =
+"📚 Academy Classroom";
+
+// teacher desks
+
+drawProfessor(
+professors.history.x,
+professors.history.y,
+"#2e8b57",
+"Professor Willow"
+);
+
+drawProfessor(
+professors.magic.x,
+professors.magic.y,
+"#ff5722",
+"Professor Ember"
+);
+
+drawProfessor(
+professors.realms.x,
+professors.realms.y,
+"#87ceeb",
+"Professor Nimbus"
+);
+
+// student desks
+
+for(let i=0;i<5;i++){
+
+ctx.fillStyle =
+"#8b5a2b";
+
+ctx.fillRect(
+180 + (i*110),
+420,
+70,
+40
+);
+
+}
+
+drawPlayer(
+player.x,
+player.y
+);
+
+}
+
+// =====================
+// DRAW PROFESSOR
+// =====================
+
+function drawProfessor(
+x,
+y,
+color,
+name
+){
+
+ctx.fillStyle =
+color;
+
+ctx.beginPath();
+
+ctx.arc(
+x,
+y,
+25,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+ctx.fillStyle =
+"white";
+
+ctx.font =
+"16px Arial";
+
+ctx.fillText(
+name,
+x-60,
+y-40
+);
+
+}
+
+// =====================
+// PROFESSOR INTERACTION
+// =====================
+
+function classroomAction(){
+
+// History
+
+let distance =
+Math.hypot(
+player.x -
+professors.history.x,
+player.y -
+professors.history.y
+);
+
+if(distance < 75){
+
+academyClasses.history =
+true;
+
+alert(
+
+"📜 Professor Willow\n\n" +
+
+"Welcome to Everstar.\n" +
+
+"The Four Realms have existed\n" +
+
+"for thousands of years."
+
+);
+
+updateAcademyProgress();
+
+return;
+
+}
+
+// Magic
+
+distance =
+Math.hypot(
+player.x -
+professors.magic.x,
+player.y -
+professors.magic.y
+);
+
+if(distance < 75){
+
+academyClasses.magic =
+true;
+
+alert(
+
+"✨ Professor Ember\n\n" +
+
+"Every student can learn\n" +
+
+"magic through study,\n" +
+
+"discipline, and practice."
+
+);
+
+updateAcademyProgress();
+
+return;
+
+}
+
+// Realms
+
+distance =
+Math.hypot(
+player.x -
+professors.realms.x,
+player.y -
+professors.realms.y
+);
+
+if(distance < 75){
+
+academyClasses.realms =
+true;
+
+alert(
+
+"🌎 Professor Nimbus\n\n" +
+
+"Earth, Water, Fire,\n" +
+
+"and Air each hold\n" +
+
+"unique secrets."
+
+);
+
+updateAcademyProgress();
+
+return;
+
+}
+
+}
+
+// =====================
+// CLASS COMPLETION
+// =====================
+
+function checkClassesCompleted(){
+
+if(
+
+academyClasses.history &&
+academyClasses.magic &&
+academyClasses.realms
+
+){
+
+alert(
+
+"🏛 Guardian Hall Invitation\n\n" +
+
+"Your professors have\n" +
+
+"approved your classwork.\n\n" +
+
+"Visit Guardian Hall\n" +
+
+"for your next lesson."
+
+);
+
+}
+
+}
+// =====================
+// FOUR GUARDIANS
+// =====================
+
+const guardians = {
+
+earth:{
+x:150,
+y:260,
+name:"Guardian Terra"
+},
+
+water:{
+x:550,
+y:260,
+name:"Guardian Marina"
+},
+
+fire:{
+x:150,
+y:450,
+name:"Guardian Pyra"
+},
+
+air:{
+x:550,
+y:450,
+name:"Guardian Zephyr"
+}
+
+};
+
+// =====================
+// FIRST ASSIGNMENT
+// =====================
+
+const guardianAssignment = {
+
+earth:false,
+water:false,
+fire:false,
+air:false,
+
+complete:false
+
+};
+
+function updateGuardianQuest(){
+
+let count = 0;
+
+if(guardianAssignment.earth)
+count++;
+
+if(guardianAssignment.water)
+count++;
+
+if(guardianAssignment.fire)
+count++;
+
+if(guardianAssignment.air)
+count++;
+
+document
+.getElementById(
+"questText"
+).innerHTML =
+
+"Guardian Assignment<br>" +
+
+count +
+"/4 Guardians Met";
+
+if(count >= 4){
+
+guardianAssignment.complete =
+true;
+
+}
+
+}
+
+// =====================
+// GUARDIAN HALL LESSON
+// =====================
+
+function drawGuardianHall(){
+
+ctx.fillStyle =
+"#c9b37e";
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+document
+.getElementById(
+"areaName"
+).innerHTML =
+"🏛 Guardian Hall";
+
+// Earth
+
+drawGuardianNPC(
+guardians.earth.x,
+guardians.earth.y,
+"#2e8b57",
+"Guardian Terra"
+);
+
+// Water
+
+drawGuardianNPC(
+guardians.water.x,
+guardians.water.y,
+"#2196f3",
+"Guardian Marina"
+);
+
+// Fire
+
+drawGuardianNPC(
+guardians.fire.x,
+guardians.fire.y,
+"#ff5722",
+"Guardian Pyra"
+);
+
+// Air
+
+drawGuardianNPC(
+guardians.air.x,
+guardians.air.y,
+"#87ceeb",
+"Guardian Zephyr"
+);
+
+// central quest board
+
+ctx.fillStyle =
+"#8b5a2b";
+
+ctx.fillRect(
+330,
+140,
+140,
+90
+);
+
+ctx.fillStyle =
+"white";
+
+ctx.font =
+"20px Arial";
+
+ctx.fillText(
+"QUEST BOARD",
+340,
+190
+);
+
+// exit portal
+
+drawReturnPortal();
+
+drawPlayer(
+player.x,
+player.y
+);
+
+}
+
+// =====================
+// DRAW GUARDIAN
+// =====================
+
+function drawGuardianNPC(
+x,
+y,
+color,
+name
+){
+
+ctx.fillStyle =
+color;
+
+ctx.beginPath();
+
+ctx.arc(
+x,
+y,
+30,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+ctx.fillStyle =
+"white";
+
+ctx.font =
+"16px Arial";
+
+ctx.fillText(
+name,
+x-60,
+y-40
+);
+
+}
+
+// =====================
+// GUARDIAN DIALOGUE
+// =====================
+
+function guardianAction(){
+
+// Earth
+
+let distance =
+Math.hypot(
+player.x -
+guardians.earth.x,
+player.y -
+guardians.earth.y
+);
+
+if(distance < 80){
+
+guardianAssignment.earth =
+true;
+
+alert(
+
+"🌎 Guardian Terra\n\n" +
+
+"The Earth Realm rewards\n" +
+
+"patience and courage.\n\n" +
+
+"Visit the Crystal Cave."
+
+);
+
+updateGuardianQuest();
+return;
+
+}
+
+// Water
+
+distance =
+Math.hypot(
+player.x -
+guardians.water.x,
+player.y -
+guardians.water.y
+);
+
+if(distance < 80){
+
+guardianAssignment.water =
+true;
+
+alert(
+
+"🌊 Guardian Marina\n\n" +
+
+"The Water Realm rewards\n" +
+
+"wisdom and curiosity.\n\n" +
+
+"Explore the Great Lake."
+
+);
+
+updateGuardianQuest();
+return;
+
+}
+
+// Fire
+
+distance =
+Math.hypot(
+player.x -
+guardians.fire.x,
+player.y -
+guardians.fire.y
+);
+
+if(distance < 80){
+
+guardianAssignment.fire =
+true;
+
+alert(
+
+"🔥 Guardian Pyra\n\n" +
+
+"The Fire Realm rewards\n" +
+
+"bravery and determination.\n\n" +
+
+"Face the Volcano."
+
+);
+
+updateGuardianQuest();
+return;
+
+}
+
+// Air
+
+distance =
+Math.hypot(
+player.x -
+guardians.air.x,
+player.y -
+guardians.air.y
+);
+
+if(distance < 80){
+
+guardianAssignment.air =
+true;
+
+alert(
+
+"🌪 Guardian Zephyr\n\n" +
+
+"The Air Realm rewards\n" +
+
+"creativity and freedom.\n\n" +
+
+"Seek the Floating Isles."
+
+);
+
+updateGuardianQuest();
+return;
+
+}
+
+}
+
+// =====================
+// COMPLETE ASSIGNMENT
+// =====================
+
+function checkGuardianAssignment(){
+
+if(
+guardianAssignment.complete
+){
+
+alert(
+
+"🏛 Guardian Hall\n\n" +
+
+"Excellent work.\n\n" +
+
+"You have met all\n" +
+
+"Four Guardians.\n\n" +
+
+"Begin exploring the realms."
+
+);
+
+guardianAssignment.complete =
+"done";
+
+}
+
+}
+// =====================
+// PLAYER PROGRESSION
+// =====================
+
+playerData.coins =
+playerData.coins || 0;
+
+playerData.inventory =
+playerData.inventory || [];
+
+playerData.completedQuests =
+playerData.completedQuests || [];
+
+// =====================
+// QUEST JOURNAL
+// =====================
+
+const realmQuests = {
+
+earth:{
+name:"Crystal Cave Discovery",
+reward:25,
+item:"Earth Crystal",
+completed:false
+},
+
+water:{
+name:"Hidden Lake Explorer",
+reward:25,
+item:"Water Pearl",
+completed:false
+},
+
+fire:{
+name:"Volcano Survey",
+reward:25,
+item:"Lava Crystal",
+completed:false
+},
+
+air:{
+name:"Floating Isles Scout",
+reward:25,
+item:"Sky Feather",
+completed:false
+}
+
+};
+
+// =====================
+// JOURNAL DISPLAY
+// =====================
+
+function updateJournal(){
+
+const questCount =
+Object.values(realmQuests)
+.filter(q=>q.completed)
+.length;
+
+document
+.getElementById(
+"questText"
+).innerHTML =
+
+"📖 Realm Quests<br>" +
+
+questCount +
+"/4 Completed<br>" +
+
+"🪙 Coins: " +
+playerData.coins;
+
+}
+
+// =====================
+// QUEST REWARD
+// =====================
+
+function completeRealmQuest(
+realm
+){
+
+const quest =
+realmQuests[realm];
+
+if(!quest)
+return;
+
+if(quest.completed)
+return;
+
+quest.completed = true;
+
+playerData.coins +=
+quest.reward;
+
+playerData.inventory.push(
+quest.item
+);
+
+alert(
+
+"✅ Quest Complete!\n\n" +
+
+quest.name +
+
+"\n\nReward:\n" +
+
+"🪙 +" +
+quest.reward +
+
+"\n" +
+
+"🎒 " +
+quest.item
+
+);
+
+updateJournal();
+
+saveProgress();
+
+}
+
+// =====================
+// REALM OBJECTIVES
+// =====================
+
+const realmObjectives = {
+
+earth:{
+x:400,
+y:120,
+label:"Crystal Cave"
+},
+
+water:{
+x:400,
+y:90,
+label:"Hidden Lake"
+},
+
+fire:{
+x:400,
+y:140,
+label:"Volcano Core"
+},
+
+air:{
+x:400,
+y:120,
+label:"Floating Isles"
+}
+
+};
+
+// =====================
+// DRAW OBJECTIVES
+// =====================
+
+function drawObjective(
+realm
+){
+
+const obj =
+realmObjectives[realm];
+
+if(!obj)
+return;
+
+ctx.fillStyle =
+"gold";
+
+ctx.beginPath();
+
+ctx.arc(
+obj.x,
+obj.y,
+25,
 0,
 Math.PI*2
 );
@@ -1837,17 +2377,208 @@ ctx.font =
 "18px Arial";
 
 ctx.fillText(
-"EXIT",
-55,
-140
+obj.label,
+obj.x - 60,
+obj.y - 35
 );
 
 }
+
 // =====================
-// QUEST SYSTEM
+// REALM CHECKS
 // =====================
 
-const quests = {
+function checkRealmQuest(){
+
+if(
+currentRealm === "earth"
+){
+
+const d =
+Math.hypot(
+player.x - 400,
+player.y - 120
+);
+
+if(d < 40){
+
+completeRealmQuest(
+"earth"
+);
+
+}
+
+}
+
+if(
+currentRealm === "water"
+){
+
+const d =
+Math.hypot(
+player.x - 400,
+player.y - 90
+);
+
+if(d < 40){
+
+completeRealmQuest(
+"water"
+);
+
+}
+
+}
+
+if(
+currentRealm === "fire"
+){
+
+const d =
+Math.hypot(
+player.x - 400,
+player.y - 140
+);
+
+if(d < 40){
+
+completeRealmQuest(
+"fire"
+);
+
+}
+
+}
+
+if(
+currentRealm === "air"
+){
+
+const d =
+Math.hypot(
+player.x - 400,
+player.y - 120
+);
+
+if(d < 40){
+
+completeRealmQuest(
+"air"
+);
+
+}
+
+}
+
+}
+
+// =====================
+// INVENTORY WINDOW
+// =====================
+
+function openInventory(){
+
+let items =
+playerData.inventory.join(
+"\n"
+);
+
+if(items === "")
+items = "Empty";
+
+alert(
+
+"🎒 INVENTORY\n\n" +
+
+items +
+
+"\n\n🪙 Coins: " +
+
+playerData.coins
+
+);
+
+}
+
+// I key
+
+window.addEventListener(
+"keydown",
+e=>{
+
+if(
+e.key.toLowerCase()
+=== "i"
+){
+
+openInventory();
+
+}
+
+}
+);
+// =====================
+// FRIENDSHIP SYSTEM
+// =====================
+
+playerData.friendships =
+playerData.friendships || {};
+
+function gainFriendship(name){
+
+if(
+!playerData.friendships[name]
+){
+
+playerData.friendships[name] = 0;
+
+}
+
+playerData.friendships[name] += 1;
+
+}
+
+// =====================
+// STUDENT NPCS
+// =====================
+
+const students = {
+
+earth:{
+name:"Rowan Oakheart",
+x:220,
+y:520,
+realm:"earth"
+},
+
+water:{
+name:"Marina Tidewhisper",
+x:420,
+y:520,
+realm:"water"
+},
+
+fire:{
+name:"Ember Ashflare",
+x:620,
+y:520,
+realm:"fire"
+},
+
+air:{
+name:"Zephyr Cloudrunner",
+x:820,
+y:520,
+realm:"air"
+}
+
+};
+
+// =====================
+// SIDE QUESTS
+// =====================
+
+const studentQuests = {
 
 earth:false,
 water:false,
@@ -1856,66 +2587,171 @@ air:false
 
 };
 
-function updateQuestText(){
-
-let completed = 0;
-
-if(quests.earth) completed++;
-if(quests.water) completed++;
-if(quests.fire) completed++;
-if(quests.air) completed++;
-
-document
-.getElementById(
-"questText"
-).innerHTML =
-
-"Quest: Visit all 4 realms<br>" +
-
-completed +
-"/4 Complete";
-
-}
-
 // =====================
-// ACTION SYSTEM
+// DRAW STUDENTS
 // =====================
 
-function useAction(){
+function drawStudents(){
 
-// enter guardian hall
+Object.values(
+students
+).forEach(student=>{
 
-if(currentRealm === "world"){
+let color =
+"#ffffff";
 
-const hallDistance =
-Math.hypot(
-player.x - 1500,
-player.y - 1500
+if(student.realm==="earth")
+color="#2e8b57";
+
+if(student.realm==="water")
+color="#2196f3";
+
+if(student.realm==="fire")
+color="#ff5722";
+
+if(student.realm==="air")
+color="#87ceeb";
+
+ctx.fillStyle =
+color;
+
+ctx.beginPath();
+
+ctx.arc(
+student.x,
+student.y,
+22,
+0,
+Math.PI*2
 );
 
-if(hallDistance < 180){
+ctx.fill();
 
-currentRealm =
-"hall";
+ctx.fillStyle =
+"white";
 
-return;
+ctx.font =
+"14px Arial";
+
+ctx.fillText(
+student.name,
+student.x - 60,
+student.y - 35
+);
+
+});
 
 }
 
-// enter portals
+// =====================
+// STUDENT INTERACTION
+// =====================
 
-for(const realm of realms){
+function studentAction(){
+
+for(
+const key in students
+){
+
+const student =
+students[key];
 
 const distance =
 Math.hypot(
-player.x - realm.x,
-player.y - realm.y
+player.x - student.x,
+player.y - student.y
 );
 
-if(distance < 90){
+if(distance < 70){
 
-enterRealm(
-realm.key
+gainFriendship(
+student.name
+);
+
+// Earth
+
+if(key==="earth"){
+
+studentQuests.earth =
+true;
+
+alert(
+
+"🌎 Rowan Oakheart\n\n" +
+
+"Could you visit the\n" +
+
+"Crystal Cave for me?\n\n" +
+
+"Friendship +1"
+
+);
+
+return;
+
+}
+
+// Water
+
+if(key==="water"){
+
+studentQuests.water =
+true;
+
+alert(
+
+"🌊 Marina Tidewhisper\n\n" +
+
+"I've always wanted to\n" +
+
+"see the Hidden Lake.\n\n" +
+
+"Friendship +1"
+
+);
+
+return;
+
+}
+
+// Fire
+
+if(key==="fire"){
+
+studentQuests.fire =
+true;
+
+alert(
+
+"🔥 Ember Ashflare\n\n" +
+
+"Tell me what you find\n" +
+
+"inside the Volcano.\n\n" +
+
+"Friendship +1"
+
+);
+
+return;
+
+}
+
+// Air
+
+if(key==="air"){
+
+studentQuests.air =
+true;
+
+alert(
+
+"🌪 Zephyr Cloudrunner\n\n" +
+
+"Find the Floating Isles.\n\n" +
+
+"Friendship +1"
+
 );
 
 return;
@@ -1926,49 +2762,52 @@ return;
 
 }
 
-// leave realms
+}
 
-if(
+// =====================
+// REPUTATION
+// =====================
 
-currentRealm === "earth" ||
-currentRealm === "water" ||
-currentRealm === "fire" ||
-currentRealm === "air"
+function openReputation(){
 
+let report =
+"🤝 FRIENDSHIPS\n\n";
+
+for(
+const friend in
+playerData.friendships
 ){
 
-leaveRealm();
+report +=
 
-return;
+friend +
 
-}
+": " +
 
-// exit hall
+playerData.friendships[
+friend
+] +
 
-if(currentRealm === "hall"){
-
-leaveRealm();
-
-return;
+"\n";
 
 }
 
+if(
+Object.keys(
+playerData.friendships
+).length === 0
+){
+
+report +=
+"No friends yet.";
+
 }
 
-// =====================
-// ACTION BUTTON
-// =====================
+alert(report);
 
-document
-.getElementById(
-"actionBtn"
-)
-.addEventListener(
-"click",
-useAction
-);
+}
 
-// keyboard action
+// F key
 
 window.addEventListener(
 "keydown",
@@ -1976,10 +2815,10 @@ e=>{
 
 if(
 e.key.toLowerCase()
-=== "e"
+=== "f"
 ){
 
-useAction();
+openReputation();
 
 }
 
@@ -1987,259 +2826,351 @@ useAction();
 );
 
 // =====================
-// REALM PROGRESS
+// ACADEMY COURTYARD
 // =====================
 
-function updateRealmProgress(){
+// Add this line near the end
+// of drawAcademy()
 
-if(currentRealm === "earth")
-quests.earth = true;
-
-if(currentRealm === "water")
-quests.water = true;
-
-if(currentRealm === "fire")
-quests.fire = true;
-
-if(currentRealm === "air")
-quests.air = true;
-
-updateQuestText();
-
-}
-
+drawStudents();
 // =====================
-// HOME REALM BONUS
+// CHAPTER 2
+// DEEP DARK FOREST
 // =====================
 
-function applyRealmBonus(){
+let chapter2Unlocked =
+false;
 
-switch(
-playerData.homeRealm
+let elderGuardianMet =
+false;
+
+// unlock chapter 2
+
+function checkChapter2Unlock(){
+
+if(
+
+realmQuests.earth.completed &&
+realmQuests.water.completed &&
+realmQuests.fire.completed &&
+realmQuests.air.completed
+
 ){
 
-case "earth":
-
-player.speed = 5;
-break;
-
-case "water":
-
-player.speed = 7;
-break;
-
-case "fire":
-
-player.speed = 6;
-break;
-
-case "air":
-
-player.speed = 8;
-break;
+chapter2Unlocked = true;
 
 }
 
 }
 
 // =====================
-// STARTUP
+// FOREST ENTRANCE
 // =====================
 
-updateQuestText();
+const doomForest = {
 
-applyRealmBonus();
+x:2600,
+y:1500,
+
+radius:80
+
+};
+
 // =====================
-// PLAYER RENDER
+// ELDER GUARDIAN
 // =====================
 
-function drawPlayer(){
+const elderGuardian = {
 
-const screenX =
-canvas.width / 2;
+x:400,
+y:220
 
-const screenY =
-canvas.height / 2;
+};
 
-// body
+// =====================
+// FOREST MAP
+// =====================
+
+function drawDoomForest(){
 
 ctx.fillStyle =
-"#ff4444";
+"#102010";
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+document
+.getElementById(
+"areaName"
+).innerHTML =
+"🌲 Deep Dark Forest";
+
+// trees
+
+for(let i=0;i<80;i++){
+
+ctx.fillStyle =
+"#0b330b";
 
 ctx.beginPath();
 
 ctx.arc(
-screenX,
-screenY,
-player.radius,
+(i * 57) % canvas.width,
+(i * 33) % canvas.height,
+20,
 0,
-Math.PI * 2
+Math.PI*2
 );
 
 ctx.fill();
 
-// outline
+}
 
-ctx.strokeStyle =
+// elder guardian
+
+ctx.fillStyle =
+"gold";
+
+ctx.beginPath();
+
+ctx.arc(
+elderGuardian.x,
+elderGuardian.y,
+35,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+ctx.fillStyle =
 "white";
 
-ctx.lineWidth = 4;
+ctx.font =
+"22px Arial";
+
+ctx.fillText(
+"Elder Guardian",
+280,
+150
+);
+
+// exit portal
+
+drawReturnPortal();
+
+drawPlayer(
+player.x,
+player.y
+);
+
+}
+
+// =====================
+// STORY EVENT
+// =====================
+
+function elderGuardianAction(){
+
+const distance =
+Math.hypot(
+
+player.x -
+elderGuardian.x,
+
+player.y -
+elderGuardian.y
+
+);
+
+if(distance < 90){
+
+elderGuardianMet =
+true;
+
+alert(
+
+"🌟 Elder Guardian\n\n" +
+
+"Student " +
+
+playerData.name +
+
+",\n\n" +
+
+"You have completed\n" +
+
+"the Four Realm Trials.\n\n" +
+
+"The true journey\n" +
+
+"is only beginning.\n\n" +
+
+"Prepare for Beta 4."
+
+);
+
+}
+
+}
+
+// =====================
+// REALM MASTER REWARD
+// =====================
+
+function grantRealmMasterTitle(){
+
+if(
+playerData.completedQuests
+.includes(
+"Realm Master"
+)
+){
+return;
+}
+
+playerData.completedQuests.push(
+"Realm Master"
+);
+
+alert(
+
+"🏆 TITLE UNLOCKED\n\n" +
+
+"Realm Master"
+
+);
+
+saveProgress();
+
+}
+
+// =====================
+// CHECK WORLD EVENTS
+// =====================
+
+function checkWorldEvents(){
+
+checkChapter2Unlock();
+
+if(
+chapter2Unlocked
+){
+
+grantRealmMasterTitle();
+
+}
+
+}
+
+// =====================
+// WORLD MAP ADDITION
+// =====================
+
+// Add this near the end
+// of drawWorld()
+
+if(chapter2Unlocked){
+
+ctx.fillStyle =
+"#003300";
+
+ctx.beginPath();
+
+ctx.arc(
+doomForest.x - camera.x,
+doomForest.y - camera.y,
+doomForest.radius,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+ctx.strokeStyle =
+"lime";
+
+ctx.lineWidth = 5;
 
 ctx.stroke();
 
-// head
-
-ctx.fillStyle =
-playerData.skin;
-
-ctx.beginPath();
-
-ctx.arc(
-screenX,
-screenY - 35,
-18,
-0,
-Math.PI * 2
-);
-
-ctx.fill();
-
-// hair
-
-ctx.fillStyle =
-playerData.hair;
-
-ctx.beginPath();
-
-ctx.arc(
-screenX,
-screenY - 40,
-18,
-Math.PI,
-0
-);
-
-ctx.fill();
-
-// eyes
-
-ctx.fillStyle =
-playerData.eyes;
-
-ctx.beginPath();
-ctx.arc(
-screenX - 5,
-screenY - 35,
-2,
-0,
-Math.PI*2
-);
-ctx.fill();
-
-ctx.beginPath();
-ctx.arc(
-screenX + 5,
-screenY - 35,
-2,
-0,
-Math.PI*2
-);
-ctx.fill();
-
-// name
-
 ctx.fillStyle =
 "white";
 
-ctx.font =
-"18px Arial";
-
 ctx.fillText(
-playerData.name,
-screenX - 40,
-screenY - 70
-);
-
-// realm badge
-
-ctx.font =
-"14px Arial";
-
-ctx.fillText(
-playerData.homeRealm.toUpperCase(),
-screenX - 30,
-screenY + 60
+"Deep Dark Forest",
+doomForest.x -
+camera.x - 60,
+doomForest.y -
+camera.y + 120
 );
 
 }
 
 // =====================
-// REALM SWITCHING
+// FOREST ENTRY
 // =====================
 
-function drawCurrentArea(){
+function checkForestEntrance(){
 
-updateRealmProgress();
+if(
+!chapter2Unlocked
+)return;
 
-if(currentRealm === "world"){
-drawWorld();
-}
+if(
+currentRealm !== "world"
+)return;
 
-if(currentRealm === "hall"){
-drawGuardianHall();
-}
+const distance =
+Math.hypot(
 
-if(currentRealm === "earth"){
-drawEarthRealm();
-}
+player.x -
+doomForest.x,
 
-if(currentRealm === "water"){
-drawWaterRealm();
-}
+player.y -
+doomForest.y
 
-if(currentRealm === "fire"){
-drawFireRealm();
-}
-
-if(currentRealm === "air"){
-drawAirRealm();
-}
-
-}
-
-// =====================
-// GAME LOOP
-// =====================
-
-function gameLoop(){
-
-movePlayer();
-
-updateCamera();
-
-drawCurrentArea();
-
-if(currentRealm === "world"){
-drawPlayer();
-}
-
-requestAnimationFrame(
-gameLoop
 );
 
+if(distance < 90){
+
+currentRealm =
+"doomForest";
+
+player.x = 420;
+player.y = 480;
+
+}
+
 }
 
 // =====================
-// START GAME
+// END OF BETA 3
 // =====================
 
-drawPreview();
+// Add this inside your
+// drawCurrentArea()
 
-updateQuestText();
+if(
+currentRealm ===
+"doomForest"
+){
 
-gameLoop();
+drawDoomForest();
 
-</script>
+}
 
-</body>
-</html>
+// Add these inside your
+// main game loop
+
+checkWorldEvents();
+
+checkForestEntrance();
+
+// =====================
+// BETA 3 COMPLETE
+// =====================
